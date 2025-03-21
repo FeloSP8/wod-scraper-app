@@ -2,7 +2,7 @@ import os
 import sys
 from com.chaquo.python import Python
 
-def main():
+def main(include_weekends=False):
     result = "🏋️ WOD Scraper Unificado\n"
     result += "=" * 50 + "\n"
 
@@ -13,12 +13,12 @@ def main():
         # Import the modules directly instead of using subprocess
         result += "\n📦 Ejecutando N8 scraper...\n"
         import scraper
-        scraper_result = scraper.main()
+        scraper_result = scraper.main(include_weekends)
         result += f"{scraper_result}\n"
 
         result += "\n📦 Ejecutando CrossfitDB scraper...\n"
         import crossfitdb
-        crossfitdb_result = crossfitdb.main(semana=True)
+        crossfitdb_result = crossfitdb.main(semana=True, include_weekends=include_weekends)
         result += f"{crossfitdb_result}\n"
 
         result += "\n✅ Proceso finalizado correctamente"
