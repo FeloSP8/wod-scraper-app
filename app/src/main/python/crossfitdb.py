@@ -61,7 +61,7 @@ def format_wod(wod_data):
     
     return formatted
 
-def main(semana=False):
+def main(semana=False, include_weekends=False):
     try:
         token = get_auth_token()
         if isinstance(token, str) and token.startswith("Error"):
@@ -75,6 +75,9 @@ def main(semana=False):
             today = datetime.now()
             for i in range(7):
                 date = today + timedelta(days=i)
+                # Saltar fines de semana si no están incluidos
+                if not include_weekends and date.weekday() >= 5:
+                    continue
                 date_str = date.strftime("%Y-%m-%d")
                 wod_data = get_wod(token, date_str)
                 if isinstance(wod_data, str) and wod_data.startswith("Error"):
