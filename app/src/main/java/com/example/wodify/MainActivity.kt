@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
 fun WodScraperScreen() {
     var wodText by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
+    var includeWeekends by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     
     Column(
@@ -95,6 +96,23 @@ fun WodScraperScreen() {
         
         Spacer(modifier = Modifier.height(16.dp))
         
+        // Checkbox para fines de semana
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = includeWeekends,
+                onCheckedChange = { includeWeekends = it }
+            )
+            Text(
+                text = "Incluir fines de semana",
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+        
         // Botón para obtener WODs
         Button(
             onClick = {
@@ -104,7 +122,7 @@ fun WodScraperScreen() {
                         try {
                             val py = Python.getInstance()
                             val module = py.getModule("wod_scraper")
-                            module.callAttr("main").toString()
+                            module.callAttr("main", includeWeekends).toString()
                         } catch (e: Exception) {
                             "Error: ${e.message}"
                         }
