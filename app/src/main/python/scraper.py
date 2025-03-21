@@ -3,8 +3,12 @@ from bs4 import BeautifulSoup
 import re
 from datetime import datetime
 
-def main():
+def main(include_weekends=False):
     try:
+        # Verificar si es fin de semana
+        if not include_weekends and datetime.now().weekday() >= 5:
+            return "Box N8 - No se obtienen WODs en fin de semana"
+            
         # URL del sitio web
         url = "https://boxn8.com.br/wod/"
         
